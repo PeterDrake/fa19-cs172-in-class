@@ -1,11 +1,18 @@
 public class Minesweeper {
     public static void main(String[] args) {
         boolean[][] mines = createMinefield(10);
+        boolean[][] revealed=new boolean[10][10];
         printMinefield(mines);
         StdDraw.setScale(-0.5, mines.length-0.5);
-        drawMinefield(mines);
+        StdDraw.enableDoubleBuffering();
+        drawMinefield(mines, revealed);
         while (true) {
-            handleMouseClick(mines);
+            handleMouseClick(mines, revealed);
+            drawMinefield(mines, revealed);
+            if (hasWon(mines,revealed)){
+                StdOut.println("you win!");
+                break;
+            }
         }
     }
 
@@ -23,17 +30,18 @@ public class Minesweeper {
         return count;
     }
 
-    static void handleMouseClick(boolean[][] mines) {
+    static void handleMouseClick(boolean[][] mines, boolean[][]revealed) {
         while (!StdDraw.isMousePressed()) {
             //do nothing
         }
-        double x = Math.round(StdDraw.mouseX());
-        double y = Math.round(StdDraw.mouseY());
+        int x =(int) Math.round(StdDraw.mouseX());
+        int y =(int)Math.round(StdDraw.mouseY());
         while (StdDraw.isMousePressed()) {
             //do nothing
         }
         StdOut.println(x + "," + y);
-        if (mines[(int) x][(int) y]) {
+        revealed [x][y]= true;
+        if (mines[x][y]) {
             StdOut.println("Boom");
         } else {
             StdOut.println("Safe");
@@ -75,10 +83,16 @@ public class Minesweeper {
 
     }
 
-    static void drawMinefield(boolean[][] mines) {
+    static void drawMinefield(boolean[][] mines, boolean[][] revealed) {
+        StdDraw.clear();
         for (int x = 0; x < mines.length; x++) {
             for (int y = 0; y < mines.length; y++) {
-                if (mines[x][y]) {
+                if (! revealed[x][y]){
+                    StdDraw.setPenColor(StdDraw.BLUE);
+                    StdDraw.filledSquare(x, y, 0.5);
+                    StdDraw.setPenColor();
+                }
+                else if (mines[x][y]) {
                     StdDraw.setPenColor(StdDraw.RED);
                     StdDraw.filledCircle(x, y, 0.3);
                     StdDraw.setPenColor();
@@ -92,5 +106,17 @@ public class Minesweeper {
                 StdDraw.square(x, y, 0.5);
             }
         }
+        StdDraw.show();
+    }
+
+    public static boolean hasWon(boolean[][] mines, boolean[][] revealed) {
+        for (int x=0; x<mines.length; x++) {
+            for (int y=0; y<mines.length; y++){
+                if (! mines [x][y] && ! revealed [x][y]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
