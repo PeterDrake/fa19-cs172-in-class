@@ -28,4 +28,17 @@ class MinesweeperTest {
         revealed [2][0]=true;
         assertTrue(Minesweeper.hasWon(mines,revealed));
     }
+
+    @Test
+    void autoClears() {
+        boolean [][] mines = new boolean[3][3];
+        mines[0][2] = true;
+        mines[2][2] = true;
+        boolean [][] revealed = new boolean[3][3];
+        Minesweeper.autoClear(mines, revealed, 0, 0);
+        boolean [][] correct = {{true, true, false},
+                                {true, true, false},
+                                {true, true, false}};
+        assertArrayEquals(correct, revealed);
+    }
 }

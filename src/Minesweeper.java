@@ -40,7 +40,7 @@ public class Minesweeper {
             //do nothing
         }
         StdOut.println(x + "," + y);
-        revealed [x][y]= true;
+        autoClear(mines, revealed, x, y);
         if (mines[x][y]) {
             StdOut.println("Boom");
         } else {
@@ -118,5 +118,19 @@ public class Minesweeper {
             }
         }
         return true;
+    }
+
+    public static void autoClear(boolean[][] mines, boolean[][] revealed, int x, int y) {
+        if (!revealed[x][y]) {
+            revealed[x][y] = true;            if (countNeighboringMines(mines, x, y) == 0) {
+                for (int i = x - 1; i <= x + 1; i++) {
+                    for (int j = y - 1; j <= y + 1; j++) {
+                        if ((i >= 0 && i < mines.length) && (j >= 0 && j < mines.length)) {
+                            autoClear(mines, revealed, i, j);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
