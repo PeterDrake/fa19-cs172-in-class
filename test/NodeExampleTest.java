@@ -9,16 +9,7 @@ class NodeExampleTest {
 
     @BeforeEach
     void setUp() {
-        Node a = new Node();
-        Node b = new Node();
-        Node c = new Node();
-        a.item = 4;
-        a.next = b;
-        b.item = 8;
-        b.next = c;
-        c.item = 5;
-        c.next = null; // Not needed
-        ls = a;
+        ls = arrayToList(new int[] {4,8,5});
     }
 
     @Test
@@ -52,17 +43,45 @@ class NodeExampleTest {
     }
     @Test
     void iterativelyFindsMaxOfNegativeNumbers(){
-        Node a = new Node();
-        Node b = new Node();
-        Node c = new Node();
-        a.item = -4;
-        a.next = b;
-        b.item = -8;
-        b.next = c;
-        c.item = -5;
-        c.next = null; // Not needed
-        ls = a;
+        ls = arrayToList(new int[] {-4,-8,-5});
         assertEquals(-4,NodeExample.maxIterative(ls));
 
     }
+    @Test
+    void recognizesEqualLists(){
+        Node a = arrayToList(new int[] {1,2,3});
+        Node b = arrayToList(new int[] {1,2,3});
+        assertTrue(NodeExample.equals(a,b));
+    }
+    @Test
+    void recognizesUnequalLists(){
+        Node a = arrayToList(new int[] {1,2,3});
+        Node b = arrayToList(new int[] {1,2,4});
+        assertFalse(NodeExample.equals(a,b));
+    }
+    @Test
+    void convertsListToString(){
+        assertEquals("(4,8,5)",NodeExample.toString(ls));
+    }
+    @Test
+    void convertsEmptyListToString(){
+        assertEquals("()", NodeExample.toString(null));
+    }
+
+
+    static Node arrayToList(int[] numbers, int i){
+        if(i == numbers.length){
+            return null;
+        } else {
+            Node rest = arrayToList(numbers, i+1);
+            Node first = new Node();
+            first.item = numbers[i];
+            first.next = rest;
+            return first;
+        }
+    }
+    static Node arrayToList(int[] numbers){
+        return arrayToList(numbers, 0);
+    }
+
 }

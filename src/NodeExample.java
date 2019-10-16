@@ -69,4 +69,26 @@ public class NodeExample {
         }
         return max;
     }
+
+    public static boolean equals(Node a, Node b) {
+        if(a==null){
+            return b==null;
+        } else if (b==null){
+            return false;
+        }
+        return a.item == b.item && equals(a.next, b.next);
+    }
+
+    public static String toStringHelper(Node ls) {
+        if(ls == null){
+            return ")";
+        }
+        if(ls.next == null){
+            return ls.item + ")";
+        }
+        return ls.item + "," + toStringHelper(ls.next);
+    }
+    public static String toString(Node ls){
+        return "(" + toStringHelper(ls);
+    }
 }
