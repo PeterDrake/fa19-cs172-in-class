@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 public class Room {
-    String name;
-    ArrayList<String> directions;
-    ArrayList<Room> neighbors;
-    Treasure treasure;
-    Monster monster;
+    private String name;
+    private ArrayList<String> directions;
+    private ArrayList<Room> neighbors;
+    private Treasure treasure;
+    private Monster monster;
 
     public void setTreasure(Treasure t) {
         treasure = t;
@@ -16,7 +16,11 @@ public class Room {
     }
 
     public void get(ArrayList<Treasure> bag) {
-        if (treasure!=null) {
+        if (monster!=null)
+        {
+            StdOut.println("You can't do that with unfriendlies about!");
+        }
+        else if (treasure!=null) {
             bag.add(treasure);
             treasure = null;
         }
@@ -31,7 +35,7 @@ public class Room {
         }
     }
 
-    Room(String n){
+    public Room(String n){
         name=n;
         directions=new ArrayList<String>();
         neighbors= new ArrayList<Room>();
@@ -52,5 +56,14 @@ public class Room {
     public void addNeighbor(String d, Room n) {
         directions.add(d);
         neighbors.add(n);
+    }
+
+    public void killTheMonster() {
+        StdOut.println("The "+monster+" falls dead!");
+        monster=null;
+    }
+
+    public void killThePlayer() {
+        StdOut.println("The dragon breaths fire and fries you to a crisp!");
     }
 }

@@ -1,6 +1,6 @@
 public class Monster {
 
-    String name;
+    private String name;
 
     public Monster(String name) {
         this.name = name;

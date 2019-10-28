@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 public class Adventure {
 
-    Room current;   //instance variable goes everywhere!
+    private Room current;   //instance variable goes everywhere!
 
-    ArrayList<Treasure> myBag;
+    private ArrayList<Treasure> myBag;
 
-    Adventure() {   //constructor  (set up the adventure map!)
+    public Adventure() {   //constructor  (set up the adventure map!)
         //rooms
         Room entry=new Room("entry");
         Room hall=new Room("hall");
@@ -38,14 +38,14 @@ public class Adventure {
 
     }
 
-    private void run() {    //can get rid of private
+    public void run() {    //can get rid of private
         while(true){
             StdOut.println(current);
             handleCommand();
         }
     }
 
-    void handleCommand() {
+    public void handleCommand() {
         String command=StdIn.readLine();
         if (command.equals("look")) {
             current.look();
@@ -56,8 +56,21 @@ public class Adventure {
         else if (command.equals("get")) {
             current.get(myBag);
         }
+        else if (command.equals("attack")){
+            attack();
+        }
         else {
             current=current.go(command);
+        }
+    }
+
+    public void attack() {
+        if (myBag.contains(new Treasure("sword"))){
+            current.killTheMonster();
+        }
+        else {
+            current.killThePlayer();
+            System.exit(0);
         }
     }
 }
